@@ -28,7 +28,9 @@ $ python3 -m pip install endoseg --user
 Install from source
 -------------------
 ```bash
-
+$ git clone https://github.com/luiscarlosgph/endoseg.git
+$ cd endoseg
+$ python3 setup.py install --user
 ```
 
 Run
@@ -36,6 +38,19 @@ Run
 ```bash
 $ python3 -m endoseg.run --input data/demo.jpg --output data/demo_seg.png
 ```
+<table align="center">
+  <tr>
+    <td align="center">Input image</td> <td align="center">Output segmentation</td>
+  </tr>
+  <tr>
+    <td align="center">
+      <img src="https://github.com/luiscarlosgph/endoseg/blob/main/data/demo.jpg?raw=true" width=205>
+    </td>
+    <td align="center">
+      <img src="https://github.com/luiscarlosgph/endoseg/blob/main/data/demo_seg.png?raw=true" width=205>
+    </td>
+  </tr>
+</table>
 
 Exemplary code snippet
 ----------------------
