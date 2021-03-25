@@ -1,1 +1,1 @@
-import endoseg.Segmenter as Segmenter
+from .endoseg import Segmenter as Segmenter

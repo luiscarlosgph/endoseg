@@ -1,3 +1,2 @@
 numpy
-cv2
-grabcut
+opencv-python

@@ -12,6 +12,6 @@ setuptools.setup(name='endoseg',
     url='https://github.com/luiscarlosgph/endoseg',
     packages=['endoseg'],
     package_dir={'endoseg' : 'src'}, 
-    install_requires = ['numpy', 'grabcut', 'cv2'],
+    install_requires = ['numpy', 'opencv-python'],
     #test_suite = 'tests',
 )

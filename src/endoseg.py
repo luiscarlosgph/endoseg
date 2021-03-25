@@ -7,9 +7,6 @@
 import cv2
 import numpy as np
 
-# My imports
-import grabcut  # See how to install it on: https://github.com/luiscarlosgph/grabcut
-
 
 def shell(cmd):
     """
@@ -52,8 +49,7 @@ class Segmenter(object):
     """@class Segmenter of the visible are of an endoscopic image."""
 
     def __init__(self, min_hsv_thresh=[0, 0, 0], max_hsv_thresh=[255, 255, 10],
-            deinterlace=False, denoise=True, use_grabcut=True, grabcut_maxiter=5,
-            grabcut_gamma=10, border_thickness=10):
+            deinterlace=False, denoise=True):
         """
         @details The min_hsv_thresh and max_hsv_thresh can be a list of lists, in case that you
                  want to capture several colour ranges.
@@ -68,10 +64,6 @@ class Segmenter(object):
         self._max_hsv_thresh = max_hsv_thresh 
         self.deinterlace = deinterlace
         self.denoise = denoise
-        self.use_grabcut = use_grabcut
-        self.grabcut_maxiter = grabcut_maxiter
-        self.grabcut_gamma = grabcut_gamma
-        self.border_thickness = border_thickness
 
     @staticmethod
     def deinterlace(im):
