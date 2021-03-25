@@ -36,6 +36,8 @@ $ python3 setup.py install --user
 Run
 ---
 ```bash
+$ git clone https://github.com/luiscarlosgph/endoseg.git
+$ cd endoseg
 $ python3 -m endoseg.run --input data/demo.jpg --output data/demo_seg.png
 ```
 <table align="center">
