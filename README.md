@@ -19,10 +19,16 @@ $ sudo apt update
 $ sudo apt install libopencv-dev python3-opencv
 ```
 
-Install
--------
+Install with pip
+----------------
 ```bash
 $ python3 -m pip install endoseg --user
+```
+
+Install from source
+-------------------
+```bash
+
 ```
 
 Run
