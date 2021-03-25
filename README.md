@@ -17,7 +17,7 @@ Dependencies
 Install
 -------
 ```bash
-
+$ python3 -m pip install endoseg --user
 ```
 
 Run
