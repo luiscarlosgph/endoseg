@@ -4,17 +4,33 @@ Endoseg is a Python package that facilitates the segmentation of the visible cir
 
 Dependencies
 ------------
-See the [requirements.txt]() file.
+* Numpy
+```bash
+
+```
+
+* OpenCV
+```bash
+
+```
 
 Install
 -------
+```bash
+
+```
 
 Run
 ---
+```bash
+$ python3 -m endoseg.run --input data/demo.jpg --output data/demo_seg.png
+```
 
 Exemplary code snippet
 ----------------------
+```python
 
+```
 
 License
 -------
