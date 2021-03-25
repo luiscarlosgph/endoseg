@@ -47,7 +47,7 @@ $ python3 -m endoseg.run --input data/demo.jpg --output data/demo_seg.png
       <img src="https://github.com/luiscarlosgph/endoseg/blob/main/data/demo.jpg?raw=true" width=205>
     </td>
     <td align="center">
-      <img src="https://github.com/luiscarlosgph/endoseg/blob/main/data/demo_seg.png?raw=true" width=205>
+      <img src="https://github.com/luiscarlosgph/endoseg/blob/main/data/exemplary_seg.png?raw=true" width=205>
     </td>
   </tr>
 </table>
