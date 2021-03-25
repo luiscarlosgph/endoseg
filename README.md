@@ -1,6 +1,6 @@
 Description
 -----------
-Endoseg is a Python package that facilitates the segmentation of the visible -circular- area of endoscopic images.
+Endoseg is a Python package that facilitates the segmentation of the visible circular area of endoscopic images.
 
 Dependencies
 ------------
