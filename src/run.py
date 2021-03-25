@@ -30,7 +30,6 @@ def parse_command_line_parameters(parser):
                                range is [0, 255].""",
         '--deinterlace':    'Deinterlace the images as a preprocessing step.',
         '--denoise':        'Set it to one to denoise the image before the HSV segmentation.',
-        '--grabcut':        'Set it to 1 to activate the use of Grabcut.',
     }
 
     # Mandatory parameters
@@ -44,7 +43,6 @@ def parse_command_line_parameters(parser):
         help=msg['--max-hsv-thresh'])
     parser.add_argument('--deinterlace', required=False, default=False, help=msg['--deinterlace'])
     parser.add_argument('--denoise', required=False, default=False, help=msg['--denoise'])
-    parser.add_argument('--grabcut', required=False, default=False, help=msg['--grabcut'])
     
     # Parse command line
     args = parser.parse_args()
@@ -69,7 +67,6 @@ def validate_cmd_param(args):
     args.max_hsv_thresh = eval("'" + args.max_hsv_thresh + "'")
     assert(int(args.deinterlace) == 0 or int(args.deinterlace) == 1)
     assert(int(args.denoise) == 0 or int(args.denoise) == 1)
-    assert(int(args.grabcut) == 0 or int(args.grabcut) == 1)
 
 
 def convert_args_to_correct_datatypes(args):
@@ -82,7 +79,6 @@ def convert_args_to_correct_datatypes(args):
     args.max_hsv_thresh = eval(args.max_hsv_thresh)
     args.deinterlace = bool(int(args.deinterlace))
     args.denoise = bool(int(args.denoise))
-    args.grabcut = bool(int(args.grabcut))
 
 
 def main(): 
