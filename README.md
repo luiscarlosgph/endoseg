@@ -18,4 +18,4 @@ Exemplary code snippet
 
 License
 -------
-This code is released under an [MIT license]().
+This code is released under an [MIT license](https://github.com/luiscarlosgph/endoseg/blob/main/LICENSE).
