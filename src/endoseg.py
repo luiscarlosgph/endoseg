@@ -152,12 +152,19 @@ class Segmenter(object):
     
         return new_mask
 
-    def segment(self, im):
+    def segment(self, im, erode_iterations=3):
         """
-        @brief Binary segmentation of the black padding surrounding the endoscopic image.
-        @param[in]  im  BGR image to be segmented.
-        @returns a numpy.ndarray of shape (h, w) and type np.uint8 with a label of 0 for the
-                 chroma key and 255 for the foreground objects.
+        @brief Binary segmentation of the black padding surrounding the 
+               endoscopic image.
+        @param[in]  im                BGR image to be segmented.
+        @param[in]  erode_iterations  Depending on how blurred is the border of
+                                      the endoscopic area, the mask can be a
+                                      bit larger than it should, hence we erode
+                                      it with a (5, 5) kernel. This parameter
+                                      controls the number of erosion iterations.
+                                      The default value is three iterations.
+        @returns a numpy.ndarray of shape (h, w) and type np.uint8 with a label 
+                 of 0 for the chroma key and 255 for the foreground objects.
         """
         # Deinterlace
         if self.deinterlace:
@@ -167,21 +174,25 @@ class Segmenter(object):
         denoised_im = Segmenter.denoise(im) if self.denoise else im
 
         # Get HSV-based segmentation mask
-        mask = Segmenter.hsv_bg_remove(denoised_im, self.min_hsv_thresh, self.max_hsv_thresh)
+        mask = Segmenter.hsv_bg_remove(denoised_im, self.min_hsv_thresh, 
+            self.max_hsv_thresh)
         
         # Detect the largest connected component
         mask = Segmenter.largest_cc_mask(mask)
         
-        # If the pixel in the centre is background, we have the segmentation flipped
+        # If the pixel in the centre is background, we have the segmentation 
+        # flipped
         if mask[mask.shape[0] // 2, mask.shape[1] // 2] == 0:
             mask = 255 - mask
         
-        # The mask usually comes a bit thicker than it should, so we erode it a bit
+        # The mask usually comes a bit thicker than it should, so we erode it 
+        # a bit
         kernel = np.ones((5, 5), np.uint8)
-        mask = cv2.erode(mask, kernel, iterations=3)
+        mask = cv2.erode(mask, kernel, iterations=erode_iterations)
         
         # Convex hull as a sanity measure
-        contours, hierarchy = cv2.findContours(mask, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+        contours, hierarchy = cv2.findContours(mask, cv2.RETR_TREE, 
+            cv2.CHAIN_APPROX_SIMPLE)
         hull = cv2.convexHull(contours[0], False)
         cv2.drawContours(mask, [hull], -1, 255, -1)
 
