@@ -71,6 +71,12 @@ seg = segmenter.segment(im)
 
 # Save the segmentation to file
 cv2.imwrite('output_segmentation.png', seg)
+
+# Get a rectangular crop of the visible area
+crop = segmenter.get_rect_crop(im)
+
+# Save the crop to file
+cv2.imwrite('output_crop.jpg', crop)
 ```
 
 License
