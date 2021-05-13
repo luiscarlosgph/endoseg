@@ -38,11 +38,13 @@ Run
 ```bash
 $ git clone https://github.com/luiscarlosgph/endoseg.git
 $ cd endoseg
-$ python3 -m endoseg.run --input data/demo.jpg --output data/demo_seg.png
+$ python3 -m endoseg.run --input data/demo.jpg --output-seg data/demo_seg.png --output-crop data/demo_crop.jpg
 ```
 <table align="center">
   <tr>
-    <td align="center">Input image</td> <td align="center">Output segmentation</td>
+    <td align="center">Input image</td> 
+    <td align="center">Output segmentation</td>
+    <td align="center">Output crop</td>
   </tr>
   <tr>
     <td align="center">
@@ -50,6 +52,9 @@ $ python3 -m endoseg.run --input data/demo.jpg --output data/demo_seg.png
     </td>
     <td align="center">
       <img src="https://github.com/luiscarlosgph/endoseg/blob/main/data/exemplary_seg.png?raw=true" width=205>
+    </td>
+    <td align="center">
+      <img src="https://github.com/luiscarlosgph/endoseg/blob/main/data/exemplary_crop.jpg?raw=true" width=205>
     </td>
   </tr>
 </table>
