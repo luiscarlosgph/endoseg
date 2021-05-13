@@ -143,7 +143,8 @@ class Segmenter(object):
         frequency = np.bincount(markers.flatten()).tolist()
 
         # Get largest connected components
-        largest_cc = [x for _, x in sorted(zip(frequency, range(len(frequency))))][::-1][1:][:ncc]
+        largest_cc = [x for _, x in \
+            sorted(zip(frequency, range(len(frequency))))][::-1][1:][:ncc]
 
         # Create the new mask
         new_mask = np.zeros_like(mask)
@@ -152,6 +153,50 @@ class Segmenter(object):
     
         return new_mask
 
+    def get_rect_crop(self, im, erode_iterations=3):
+        """
+        @brief Crop the visible part of an endoscopic image. 
+        @param[in]  im  Input endoscopic image with circular FoV and black endoscopic 
+                        padding.
+        @returns a new image containing a rectangular crop that fits inside the circular 
+                 endoscopic area.     
+        """
+        # Segment the endoscopic circle
+        mask = self.segment(im, erode_iterations)
+
+        # Compute centroid
+        moments = cv2.moments(mask)
+        cx = int(moments['m10'] / moments['m00'])
+        cy = int(moments['m01'] / moments['m00'])
+
+        # Expand top-left
+        tlx = cx - 1 
+        tly = cy - 1
+        finished = False
+        while not finished and tlx > 0 and tly > 0:
+            if 0 in mask[tly:cy, tlx:cx]:
+                finished = True
+                tlx += 1
+                tly += 1
+            else:
+                tlx -= 1
+                tly -= 1
+
+        # Expand bottom-right
+        brx = cx + 1
+        bry = cy + 1
+        finished = False
+        while not finished and brx < mask.shape[1] - 1 and bry < mask.shape[0] - 1:
+            if 0 in mask[cy:bry, cx:brx]:
+                finished = True
+                brx -= 1
+                bry -= 1
+            else:
+                brx += 1
+                bry += 1
+
+        return im[tly:bry, tlx:brx].copy()
+        
     def segment(self, im, erode_iterations=3):
         """
         @brief Binary segmentation of the black padding surrounding the 
