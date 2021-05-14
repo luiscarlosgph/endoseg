@@ -58,6 +58,7 @@ $ python3 -m endoseg.run --input data/demo.jpg --output-seg data/demo_seg.png --
     </td>
   </tr>
 </table>
+Note that the *output crop* is a square cut of the area within the segmentation mask.
 
 Exemplary code snippet
 ----------------------
