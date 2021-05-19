@@ -164,37 +164,19 @@ class Segmenter(object):
         # Segment the endoscopic circle
         mask = self.segment(im, erode_iterations)
 
-        # Compute centroid
-        moments = cv2.moments(mask)
-        cx = int(moments['m10'] / moments['m00'])
-        cy = int(moments['m01'] / moments['m00'])
+        # Find bounding rectangle
+        points = cv2.findNonZero(mask)
+        tlx, tly, w, h = cv2.boundingRect(points)
+        brx = tlx + w
+        bry = tly + h
 
-        # Expand top-left
-        tlx = cx - 1 
-        tly = cy - 1
-        finished = False
-        while not finished and tlx > 0 and tly > 0:
-            if 0 in mask[tly:cy, tlx:cx]:
-                finished = True
-                tlx += 1
-                tly += 1
-            else:
-                tlx -= 1
-                tly -= 1
-
-        # Expand bottom-right
-        brx = cx + 1
-        bry = cy + 1
-        finished = False
-        while not finished and brx < mask.shape[1] - 1 and bry < mask.shape[0] - 1:
-            if 0 in mask[cy:bry, cx:brx]:
-                finished = True
-                brx -= 1
-                bry -= 1
-            else:
-                brx += 1
-                bry += 1
-
+        # Reduce rectange size until there is no padding
+        while 0 in mask[tly:bry, tlx:brx]:
+            tlx += 1
+            tly += 1
+            brx -= 1
+            bry -= 1 
+        
         return im[tly:bry, tlx:brx].copy()
         
     def segment(self, im, erode_iterations=3):
