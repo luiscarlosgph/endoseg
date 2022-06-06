@@ -6,6 +6,9 @@
 
 import cv2
 import numpy as np
+import skimage.segmentation
+import scipy
+import skg
 
 
 def shell(cmd):
@@ -179,7 +182,7 @@ class Segmenter(object):
         
         return im[tly:bry, tlx:brx].copy()
         
-    def segment(self, im, erode_iterations=3):
+    def segment(self, im, erode_iterations=2):
         """
         @brief Binary segmentation of the black padding surrounding the 
                endoscopic image.
@@ -189,7 +192,7 @@ class Segmenter(object):
                                       bit larger than it should, hence we erode
                                       it with a (5, 5) kernel. This parameter
                                       controls the number of erosion iterations.
-                                      The default value is three iterations.
+                                      The default value is two iterations.
         @returns a numpy.ndarray of shape (h, w) and type np.uint8 with a label 
                  of 0 for the chroma key and 255 for the foreground objects.
         """
@@ -214,8 +217,9 @@ class Segmenter(object):
         
         # The mask usually comes a bit thicker than it should, so we erode it 
         # a bit
-        kernel = np.ones((5, 5), np.uint8)
-        mask = cv2.erode(mask, kernel, iterations=erode_iterations)
+        if erode_iterations > 0:
+            kernel = np.ones((5, 5), np.uint8)
+            mask = cv2.erode(mask, kernel, iterations=erode_iterations)
         
         # Convex hull as a sanity measure
         contours, hierarchy = cv2.findContours(mask, cv2.RETR_TREE, 
@@ -224,7 +228,27 @@ class Segmenter(object):
         cv2.drawContours(mask, [hull], -1, 255, -1)
 
         return mask
+    
+    def get_content_area_circle(self, im):
+        """
+        @brief   Get a prediction of the content area circle from an 
+                 endoscopic image.
 
+        @param[in]  im  BGR image.
+
+        @returns the properties of the estimated endoscopic content area,
+                 (x, y, radius).
+        """
+        # Segment the endoscopic content area
+        seg = self.segment(im)
+            
+        # Fit circle
+        cnts = cv2.findContours(seg, cv2.RETR_EXTERNAL, 
+                                cv2.CHAIN_APPROX_SIMPLE)[-2]
+        (x, y), r = cv2.minEnclosingCircle(cnts[0])
+
+        return int(x), int(y), int(r)
+        
     @property
     def min_hsv_thresh(self):
         return self._min_hsv_thresh
