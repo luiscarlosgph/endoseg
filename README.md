@@ -64,6 +64,7 @@ Note that the *output crop* is a square cut of the area within the segmentation 
 Exemplary code snippet
 ----------------------
 ```python
+import cv2
 import endoseg
 
 # Read input image
