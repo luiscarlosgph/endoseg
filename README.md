@@ -82,6 +82,9 @@ crop = segmenter.get_rect_crop(im)
 
 # Save the crop to file
 cv2.imwrite('output_crop.jpg', crop)
+
+# Get the properties of the endoscopic content area circle
+xc, yc, radius = segmenter.get_content_area_circle(im)
 ```
 
 License
